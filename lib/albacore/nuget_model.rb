@@ -45,7 +45,7 @@ end})
   @#{sym} = val
   @set_fields.add? :#{sym}
 end})
-        end 
+        end
       end
 
       # REQUIRED: gets or sets the id of this package
@@ -124,7 +124,7 @@ end})
 
       # add a dependency to the package; id and version
       def add_dependency id, version
-        @dependencies[id] = IdVersion.new id, version
+        #@dependencies[id] = IdVersion.new id, version
       end
 
       # add a framework dependency for the package
@@ -166,13 +166,13 @@ end})
 
         # set all my fields to the new instance
         @set_fields.each do |field|
-          debug "setting field '#{field}' to be '#{send(field)}' [nuget model: metadata]" 
+          debug "setting field '#{field}' to be '#{send(field)}' [nuget model: metadata]"
           m_next.send(:"#{field}=", send(field))
         end
 
         # set all other's fields to the new instance, overriding mine
         other.set_fields.each do |field|
-          debug "setting field '#{field}' to be '#{send(field)}' [nuget model: metadata]" 
+          debug "setting field '#{field}' to be '#{send(field)}' [nuget model: metadata]"
           m_next.send(:"#{field}=", other.send(field))
         end
 
@@ -195,7 +195,7 @@ end})
           elsif n.name == 'frameworkDepdendencies'
             n.children.reject { |n| n.text? }.each do |dep|
               m.add_framework_depdendency dep['id'], dep['version']
-            end 
+            end
           else
             # just set the property
             m.send(:"#{underscore n.name}=", n.inner_text)
@@ -390,7 +390,7 @@ end})
           compile_files.each do |f|
             target = %W[src #{Albacore::Paths.normalise_slashes(f.include)}].join(Albacore::Paths.separator)
             package.add_file f.include, target
-          end 
+          end
 
           debug "add dll and pdb files [nuget model: package]"
           package.add_file(Albacore::Paths.normalise_slashes(output + proj.asmname + '.pdb'), target_lib)
